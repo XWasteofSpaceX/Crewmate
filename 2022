@@ -1,0 +1,50 @@
+#!/usr/bin/env pybricks-micropython
+from pybricks.hubs import EV3Brick
+from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
+                                 InfraredSensor, UltrasonicSensor, GyroSensor)
+from pybricks.parameters import Port, Stop, Direction, Button, Color
+from pybricks.tools import wait, StopWatch, DataLog
+from pybricks.robotics import DriveBase
+
+# Create your objects here.
+ev3 = EV3Brick()
+# Initialize the Ultrasonic Sensors.
+obstacle_sensor = UltrasonicSensor(Port.S4)
+color_sensor = ColorSensor(Port.S3)
+
+# Initialize two motors.
+left_motor = Motor(Port.B)
+right_motor = Motor(Port.C)
+arm_motor = Motor(Port.A)
+
+# The DriveBase is composed of two motors, with a wheel on each motor.
+robot = DriveBase(left_motor, right_motor, wheel_diameter=55.5, axle_track=104)
+
+# Assemble Crew Code.
+
+
+robot.turn(-20)
+ev3.speaker.beep()
+
+robot.straight(300)
+ev3.speaker.beep()
+
+while color_sensor.reflection() < 50:
+  robot.drive(200,0)
+robot.stop(Stop.BRAKE)
+ev3.speaker.beep()
+
+robot.turn(25)
+ev3.speaker.beep()
+
+robot.straight(135)
+ev3.speaker.beep()
+
+robot.turn(-10)
+
+arm_motor.run_angle(50,120)
+
+robot.straight(-1000)
+ev3.speaker.beep()
+
+arm_motor.run_angle(-100,120,Stop.HOLD,True)
